@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# VIPandNodeDig.pl
+# VIPandNodeDig.pl - for AIG
 # j.willis@f5.com - 1-27-2017
 
 # Note: This script is provided as-is and is not supported by F5 Networks.
@@ -147,14 +147,14 @@ sub csv_Output {
     my $csvFile = $configFile . "-output" . ".csv";
     system ("rm -f $csvFile");
     open($outputFD, ">>$csvFile") || die "Unable to open '$csvFile': $!\n";
-    print $outputFD "Object-type,Object-name,Object-IP,Object-name-resolution\n";
+    print $outputFD "Object-type,Object-name,Object-IP,Object-port,Object-name-resolution\n";
     foreach $virtualName (sort keys %virtuals){
         my $printBuffer = "";
         next if ($virtuals{$virtualName}{isIPForward});
-        $printBuffer = $printBuffer . "virtual,$virtualName,$virtuals{$virtualName}{destAddr},$virtuals{$virtualName}{resolvedName}\n";
+        $printBuffer = $printBuffer . "virtual,$virtualName,$virtuals{$virtualName}{destAddr},$virtuals{$virtualName}{destPort},$virtuals{$virtualName}{resolvedName}\n";
         foreach $poolName (sort keys %{$virtuals{$virtualName}{pools}}){
             foreach $memberName (sort keys %{$pools{$poolName}{members}}){
-                $printBuffer = $printBuffer . "pool_pool-member,$poolName,$pools{$poolName}{members}{$memberName}{addr},$pools{$poolName}{members}{$memberName}{resolvedName}\n";
+                $printBuffer = $printBuffer . "pool_pool-member,$poolName,$pools{$poolName}{members}{$memberName}{addr},$pools{$poolName}{members}{$memberName}{port},$pools{$poolName}{members}{$memberName}{resolvedName}\n";
             }
         }
         print $outputFD "$printBuffer\n";
