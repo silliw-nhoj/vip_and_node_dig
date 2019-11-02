@@ -13,5 +13,7 @@
   Useful for determining fqdn of virtual-addresses and associated pool member addresses in order to identify application owner
 
   TODO:
+  
     1. collect the VS and Pool description and include in the output
+    
     2. read a GTM config file to perform reverse lookups on GTM server VS addresses.
